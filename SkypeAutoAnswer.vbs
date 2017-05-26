@@ -2,6 +2,7 @@ Option Explicit
 
 Dim ws, wEnv, pArch, sWow64, sPath, i32Bit, oFSO, oFile, sFolder, oSkype, nStatus
 Dim autoAnswer, autoFocus, fullScreen, setSysVolume, callVolume, postCallVolume, autoLock, monitorOff
+Dim autoAnswerList, wshShell
 
 Set ws = CreateObject("WScript.Shell")
 Set oFSO = CreateObject("Scripting.FileSystemObject")
@@ -39,13 +40,17 @@ Set oFSO = CreateObject("Scripting.FileSystemObject")
 '   - monitorOff: 		Alternative to above, turns monitor off automatically after a call.
 '						Windows 10 may display lock screen anyway.
 '               		Options: True, False
+'
+'   - autoAnswerList    Only users on this list will be auto answered
+'
 
-autoAnswer =		False
-autoFocus = 		False
+autoAnswer =		True
+autoAnswerList = 	Array("Unused1", "Unused2")
+autoFocus = 		True
 fullScreen =   		False
 setSysVolume = 		False
-callVolume =   		26
-postCallVolume = 	6
+callVolume =   		50
+postCallVolume = 	50
 autoLock = 			False 'See warning above
 monitorOff = 		False
 
@@ -69,6 +74,9 @@ End If
 
 'Runs killall.vbs to terminate all others attached (Skype4COM doesn't detach)
 ws.Run(sFolder & "\killall.vbs")
+
+'Get a reference to the Shell object, we will use this for call control via keyboard shortcut
+Set wshShell = WScript.CreateObject("WScript.Shell")
 
 'Create a Skype API object
 Set oSkype = Wscript.CreateObject("Skype4COM.Skype","Skype_")
@@ -119,10 +127,11 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 	'On active call, one-time events
 	If aCall.Status = 5 _
 	Then
+
 		'Speak that the call has started, and with whom
 		sPartnerName = sPartnerName & " " & aCall.PartnerDisplayName
 		ws.Run(sFolder & "\nircmd.exe speak text " & chr(34) & "Active call with " & sPartnerName & chr(34))
-		
+
 		If autoFocus = True _
 			Or fullScreen = True _
 		Then 
@@ -155,9 +164,21 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 		'Speak incoming call
 		SetVol(callVolume)
 		ws.Run(sFolder & "\nircmd.exe speak text " & chr(34) & "Incoming call from " & aCall.PartnerDisplayName & chr(34))
+
+		sPartnerName = aCall.PartnerDisplayName
+
 		If autoAnswer = True _
 		Then 
-			aCall.Answer()
+			Dim i
+			For i = 0 to uBound(autoAnswerList)
+				'Check that the caller is in the list of users authorized for auto answer
+				If autoAnswerList(i) = sPartnerName Then
+					'Answer call using hotkeys, make sure it is enabled in Skype
+					'See Tools > Options > Advanced > Hotkeys
+					'This implementation allows answering with video enabled since API did not allow this
+					WshShell.SendKeys "^%{PGUP}"
+				End If
+			Next
 		End If
 	End If
 	
