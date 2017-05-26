@@ -53,6 +53,7 @@ callVolume =   		50
 postCallVolume = 	50
 autoLock = 			False 'See warning above
 monitorOff = 		False
+slowComputer =      True
 
 ' See if we're using 32-bit. If not, bin this instance, and start with the 32-bit WScript
 ' Skype is a 32-bit process, so we need a 32-bit Windows Script Host.
@@ -84,6 +85,13 @@ Set oSkype = Wscript.CreateObject("Skype4COM.Skype","Skype_")
 ' Start the Skype Client and attach
 If Not oSkype.Client.IsRunning Then 
 	oSkype.Client.Start()
+End If
+
+If slowComputer = True _
+Then
+	' Wait for Skype to start up before proceeding
+	' On slow computers this avoids errors on attach
+	WScript.Sleep(120000) 
 End If
 
 oSkype.Attach
@@ -175,7 +183,7 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 				If autoAnswerList(i) = sPartnerName Then
 					'Answer call using hotkeys, make sure it is enabled in Skype
 					'See Tools > Options > Advanced > Hotkeys
-					'This implementation allows answering with video enabled since API did not allow this
+					'This implementation allows answering with video enabled since API does not allow this
 					WshShell.SendKeys "^%{PGUP}"
 				End If
 			Next
