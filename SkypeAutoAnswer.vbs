@@ -2,7 +2,7 @@ Option Explicit
 
 Dim ws, wEnv, pArch, sWow64, sPath, i32Bit, oFSO, oFile, sFolder, oSkype, nStatus
 Dim autoAnswer, autoFocus, fullScreen, setSysVolume, callVolume, postCallVolume, autoLock, monitorOff
-Dim autoAnswerList, wshShell
+Dim autoAnswerList, wshShell, slowComputer
 
 Set ws = CreateObject("WScript.Shell")
 Set oFSO = CreateObject("Scripting.FileSystemObject")
