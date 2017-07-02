@@ -1,16 +1,16 @@
-^#{Backspace}::
+^#BS::
   ; F2 key on logitech K400
   Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:lansdowne.fong"
   return
 
 Browser_Search::
   ; F3 key on logitech K400
-  Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:hamptongreen.fong"
+  Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:patrickspfong"
   return
 
-F5::
+#H::
   ; F4 key on logitech K400
-  Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:eva_w_huang"
+  Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:eva_w_huang"
   return
 
 #K::
