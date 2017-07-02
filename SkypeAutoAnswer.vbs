@@ -143,12 +143,12 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 		If autoFocus = True _
 			Or fullScreen = True _
 		Then 
-			Set objShell = CreateObject("WScript.Shell")
-			objShell.Run "DisplaySwitch.exe /clone"
-			Set objShell = Nothing
 			WScript.Sleep 500 'Give us a little time to react
 			'Set Skype window focus
 			oSkype.Client.Focus
+			'Sends Alt+A,E,T to enable video, only useful for calls we initiate through CLI
+			ws.SendKeys "%aet{Esc}{Esc}{Esc}"
+			WScript.Sleep 500 'Give skype a little time to react
 			If fullScreen = True _
 			Then
 				'Sends Alt+Enter for full screen call
@@ -206,10 +206,6 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 		If monitorOff = True _
 		Then
 			ws.Run(sFolder & "\nircmd.exe monitor async_off")
-			Set objShell = CreateObject("WScript.Shell")
-			objShell.Run "DisplaySwitch.exe /external" 
-			Set objShell = Nothing
- 
 		End If
 		
 		'Speak that the call has ended.
