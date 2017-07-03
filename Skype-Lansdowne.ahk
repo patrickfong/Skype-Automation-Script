@@ -1,16 +1,21 @@
-^#BS::
-  ; F2 key on logitech K400
+Browser_Search::
+  ; F5 on Microsoft keyboard
   Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:hamptongreen.fong"
   return
 
-Browser_Search::
-  ; F3 key on logitech K400
+!#F21::
+  ; F6 on Microsoft keyboard
   Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:patrickspfong"
   return
 
-#K::
-  ; F5 key on logitech K400
+^#F21::
+  ; F7 on Microsoft Keyboard
   Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:kennethsfong"
+  return
+
+#F21::
+  ; F8 on Microsoft Keyboard
+  Run,"C:\Program Files (x86)\Skype\Phone\Skype.exe" "/callto:live:fongchinwing"
   return
 
 NumPad0::
