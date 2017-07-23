@@ -27,3 +27,12 @@ NumPadDot::
 Media_Next::
   Send {Alt down}{PgDn}{Alt up}
   return
+
+
+Launch_App1::
+  IfWinActive,LiveConversationWindow ahk_exe Skype.exe
+  {
+    Send !aet{Esc}{Esc}{Esc}
+    Send !{Enter}
+  }
+  return

@@ -147,8 +147,8 @@ Public Sub Skype_CallStatus(ByRef aCall, ByVal aStatus)
 			'Set Skype window focus
 			oSkype.Client.Focus
 			'Sends Alt+A,E,T to enable video, only useful for calls we initiate through CLI
-			ws.SendKeys "%aet{Esc}{Esc}{Esc}"
-			WScript.Sleep 500 'Give skype a little time to react
+			'ws.SendKeys "%aet{Esc}{Esc}{Esc}"
+			'WScript.Sleep 500 'Give skype a little time to react
 			If fullScreen = True _
 			Then
 				'Sends Alt+Enter for full screen call
